@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Confession</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="animated-text">A Little Confession 💌</h1>
+        <p class="fade-in">I have taken a lot of images of you (I lost some of them though so you need to send them to me again) but theres not enough of us and I hate it.</p>
+        <p class="fade-in">However here is one where I look terrible because I'd cut my hair (I just put it in otherwise there would be just text)</p>
+        <img src="images/I look so retarded.jpg" alt="Confession Image" class="left-image fade-in">
+        <div class="form-container fade-in">
+            <p>Do you love me too? 💖</p>
+            <input type="text" id="response" placeholder="Type your response here..." />
+            <button class="button save-button" onclick="saveResponse()">Submit</button>
+        </div>
+        <div id="response-display" class="fade-in" style="display: none;"></div>
+        <button onclick="location.href='index.html'" class="button slide-in">Back to Home</button>
+    </div>
+    <script>
+        async function submitResponse() {
+            const response = document.getElementById('response').value.trim();
+
+            if (response === "") {
+                alert("Please type your response before submitting!");
+                return;
+            }
+
+            const responseBody = { response: response };
+            try {
+                const res = await fetch('http://localhost:3000/saveResponse', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(responseBody),
+                });
+
+                if (res.ok) {
+                    document.getElementById('response-display').innerHTML = `<p>She said "${response}"!</p>`;
+                    document.getElementById('response-display').style.display = "block";
+                    document.getElementById('form-container').style.display = "none";
+                } else {
+                    alert("Failed to save the response. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error submitting response:", error);
+                alert("There was an error submitting your response.");
+            }
+        }
+    </script>
+</body>
+</html>
