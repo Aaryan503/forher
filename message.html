@@ -24,20 +24,25 @@
         async function submitResponse() {
             const response = document.getElementById('response').value.trim();
 
-            if (response === "") {
+            if (!response) {
                 alert("Please type your response before submitting!");
                 return;
             }
 
-            const responseBody = { response: response };
+            console.log("Submitting response:", response);
+
             try {
                 const res = await fetch('http://localhost:3000/saveResponse', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(responseBody),
+                    body: JSON.stringify({ response }),
                 });
 
                 if (res.ok) {
+                    const result = await res.json();
+                    console.log("Response saved:", result);
+
+                    // Update UI
                     document.getElementById('response-display').innerHTML = `<p>She said "${response}"!</p>`;
                     document.getElementById('response-display').style.display = "block";
                     document.getElementById('form-container').style.display = "none";
@@ -46,9 +51,10 @@
                 }
             } catch (error) {
                 console.error("Error submitting response:", error);
-                alert("There was an error submitting your response.");
+                alert("An error occurred while submitting your response.");
             }
         }
     </script>
+  
 </body>
 </html>
