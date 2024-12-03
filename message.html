@@ -17,7 +17,6 @@
             <input type="text" id="response" placeholder="Type your response here..." />
             <button class="button save-button" onclick="submitResponse()">Submit</button>
         </div>
-        <div id="response-display" class="fade-in" style="display: none;"></div>
         <button onclick="location.href='index.html'" class="button slide-in">Back to Home</button>
     </div>
     <script>
@@ -41,11 +40,6 @@
                 if (res.ok) {
                     const result = await res.json();
                     console.log("Response saved:", result);
-
-                    // Update UI
-                    document.getElementById('response-display').innerHTML = `<p>She said "${response}"!</p>`;
-                    document.getElementById('response-display').style.display = "block";
-                    document.getElementById('form-container').style.display = "none";
                 } else {
                     alert("Failed to save the response. Please try again.");
                 }
